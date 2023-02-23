@@ -10,10 +10,10 @@ class Note:
         self.__date = datetime.now()
         self.__name = name
         self.__text = text
-        self.id += 1
+        self.__id += 1
 
     def get_id(self):
-        return self.id
+        return self.__id
 
     def get_name(self):
         return self.__name

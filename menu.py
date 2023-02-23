@@ -1,28 +1,21 @@
 from list_of_notes import ListOfNotes
+from view import View
 
 
 class Menu:
+    __view = View()
     __notes = ListOfNotes()
-    __greeting = "Вас приветствует приложение для управления личными заметками!"
-    __text_menu = "Что вы хотите сделать? Выберите пункт меню (введите номер):\n" \
-                  "\t1. Добавить заметку\n" \
-                  "\t2. Прочитать заметку\n" \
-                  "\t3. Прочитать все заметки\n" \
-                  "\t4. Редактировать заметку\n" \
-                  "\t5. Сохранить заметки\n" \
-                  "\t6. Удалить заметку\n" \
-                  "\t0. Выйти из приложения"
-    __commands = {1: __notes.add_note, 2: __notes.read_all_notes, 3: __notes.read_all_notes,
-                  4: __notes.read_all_notes, 5: __notes.read_all_notes, 6: __notes.delete_note_by_id}
+    __commands = {1: __notes.add_note, 2: __notes.read_note_by_id, 3: __notes.read_all_notes,
+                  4: __notes.edit_note, 5: __notes.save_notes_to_file, 6: __notes.delete_note_by_id}
 
     def start(self):
-        print(self.__greeting)
+        print(self.__view.greeting)
         while True:
-            print(self.__text_menu)
+            print(self.__view.show_menu())
             try:
                 choice = int(input())
             except ValueError:
-                print("!!! Введите корректное число")
+                self.__view.error()
             else:
                 if choice == 0:
                     print("Всего хорошего!")

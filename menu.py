@@ -9,16 +9,12 @@ class Menu:
                   4: __notes.edit_note, 5: __notes.save_notes_to_file, 6: __notes.delete_note_by_id}
 
     def start(self):
-        print(self.__view.greeting)
-        while True:
-            print(self.__view.show_menu())
-            try:
-                choice = int(input())
-            except ValueError:
-                self.__view.error()
+        self.__view.greeting()
+        while(True):
+            self.__view.show_menu()
+            choice = self.__view.input_number(len(self.__commands.keys()), 'menu')
+            if choice == 0:
+                self.__view.exit_msg()
+                break
             else:
-                if choice == 0:
-                    print("Всего хорошего!")
-                    break
-                else:
-                    self.__commands[choice]()
+                self.__commands[choice]()

@@ -14,20 +14,20 @@ class ListOfNotes:
         self.__notes.append(note)
         self.__count += 1
         note.set_id(self.__count)
-        self.__view.add_note(self.__count)
+        self.__view.info_note_msg('add')
 
     def delete_note_by_id(self):
         count = 0
-        value = self.__view.input_note_number()
+        value = self.__view.input_number(len(self.__notes), 'id')
         for note in self.__notes:
             if note.get_id() == value:
                 self.__notes.remove(note)
                 self.__count -= 1
                 count += 1
         if count > 0:
-            self.__view.del_note()
+            self.__view.info_note_msg('del')
         else:
-            self.__view.not_found_note()
+            self.__view.not_found()
 
     def read_all_notes(self):
         result = f"***Все заметки***\n" \
@@ -36,8 +36,29 @@ class ListOfNotes:
             result += f"{str(note.get_id())}|\t"
             result += f"[{str(note.get_date())}]\t"
             result += f"[{str(note.get_name())}]\n"
-            result += f"{str(note.get_text())}\n"
         self.__view.show(result)
+
+    def read_note_by_id(self):
+        value = self.__view.input_number(len(self.__notes), 'id')
+        note = self.__notes[value]
+        result = f"{str(note.get_id())}|\t"
+        result += f"[{str(note.get_date())}]\t"
+        result += f"[{str(note.get_name())}]\n"
+        result += f"{str(note.get_text())}\n"
+        self.__view.show(result)
+
+    def edit_note(self):
+        value = self.__view.input_number(len(self.__notes), 'id')
+        note = self.__notes[value]
+        note.set_text(self.__view.input_note_text())
+        note.update_date()
+        self.__view.info_note_msg('edit')
+
+    def save_notes_to_file(self):
+        pass
+
+
+
 
 
 

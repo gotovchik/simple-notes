@@ -3,7 +3,7 @@ class View:
         print("Вас приветствует приложение для управления личными заметками!")
 
     def show_menu(self):
-        print("Что вы хотите сделать? Выберите пункт меню (введите номер):\n" \
+        print("Что вы хотите сделать? Выберите пункт меню:\n" \
               "\t1. Добавить заметку\n" \
               "\t2. Прочитать заметку\n" \
               "\t3. Прочитать все заметки\n" \
@@ -18,14 +18,12 @@ class View:
     def show(self, value):
         print(value)
 
-    def add_note(self, value):
-        print(f"Заметка успешно добавлена! Номер заметки {value}")
+    def info_note_msg(self, key):
+        info = {'add': 'добавлена', 'del': 'удалена', 'edit': 'изменена'}
+        print(f"Заметка успешно {info[key]}!")
 
-    def del_note(self):
-        print("Заметка успешно удалена!")
-
-    def not_found_note(self):
-        print("Заметка с таким номером не найдена.")
+    def not_found(self):
+        print("Такого значения не найдено. Попробуйте еще раз.")
 
     def input_note_name(self):
         return input("Введите название заметки:")
@@ -33,16 +31,20 @@ class View:
     def input_note_text(self):
         return input("Текст заметки:")
 
-    def input_note_number(self, length):
+    def input_number(self, limit, preset):
+        presets = {'id': 'заметки', 'menu': 'пункта меню'}
         value = 0
         while True:
             try:
-                value = int(input("Введите номер"))
+                value = int(input(f"Введите номер {presets[preset]}: "))
             except ValueError:
                 self.error()
                 continue
-            if 0 > value <= length:
+            if 0 <= value <= limit:
                 break
             else:
-                self.not_found_note()
+                self.not_found()
         return value
+
+    def exit_msg(self):
+        print("Всего хорошего!")

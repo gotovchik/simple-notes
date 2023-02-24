@@ -8,7 +8,7 @@ class Note:
     __text = ""
 
     def __init__(self):
-        self.__date = datetime.now()
+        self.__date = datetime.now().strftime('%Y, %B %d, %A | %H:%M')
 
     def set_id(self, value):
         self.__id = value
@@ -18,6 +18,9 @@ class Note:
 
     def set_text(self, text):
         self.__text = text
+
+    def update_date(self):
+        self.__date = datetime.now().strftime('%Y, %B %d, %A | %H:%M')
 
     def get_id(self):
         return self.__id

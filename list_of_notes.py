@@ -20,6 +20,7 @@ class ListOfNotes:
             self.__notes = []
             self.__view = View()
             self.__index = 0
+            self.__index_stack = []
 
     def add_note(self):
         note = Note()
@@ -37,6 +38,8 @@ class ListOfNotes:
     def delete_note(self, note):
         self.__index_stack.append(note.get_id())
         self.__notes.remove(note)
+        if len(self.__notes) == 0:
+            self.__index_stack.clear()
         self.__view.info_note_msg('del')
 
 
@@ -52,7 +55,7 @@ class ListOfNotes:
         flag = False
         self.__view.show_manage_note_menu()
         choice = self.__view.input_number(len(commands.keys()), 'menu')
-        value = self.__view.input_number(len(self.__notes), 'id')
+        value = self.__view.input_number(self.__index, 'id')
         for note in self.__notes:
             if note.get_id() == value:
                 commands[choice](note)
@@ -67,6 +70,7 @@ class ListOfNotes:
         with open('indexes.pkl', 'wb') as file:
             pickle.dump(self.__index_stack, file,
                         protocol=pickle.HIGHEST_PROTOCOL)
+        self.__view.saved_info()
 
 
 

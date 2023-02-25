@@ -3,13 +3,6 @@ from note import Note
 from view import View
 
 
-def decode_obj(obj):
-    if '__Note__' in obj:
-        note = Note()
-        note.__dict__.update(obj['__Note__'])
-        return note
-
-
 class ListOfNotes:
     __notes = []
     __view = View()

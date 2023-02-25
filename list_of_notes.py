@@ -6,31 +6,37 @@ from view import View
 class ListOfNotes:
     __notes = []
     __view = View()
-    __count = 0
+    __index = 0
+    __index_stack = []
 
     def __init__(self):
         try:
             with open('notes.pkl', 'rb') as file:
                 self.__notes = pickle.load(file)
-                self.__count = len(self.__notes)
+                self.__index = len(self.__notes)
+            with open('indexes.pkl', 'rb') as file:
+                self.__index_stack = pickle.load(file)
         except EOFError:
             self.__notes = []
             self.__view = View()
-            self.__count = 0
+            self.__index = 0
 
     def add_note(self):
         note = Note()
         note.set_name(self.__view.input_note_name())
         note.set_text(self.__view.input_note_text())
         note.update_date()
-        note.set_id(self.__count)
+        if len(self.__index_stack) == 0:
+            note.set_id(self.__index)
+        else:
+            note.set_id(self.__index_stack.pop())
         self.__notes.append(note)
-        self.__count = len(self.__notes)
+        self.__index = len(self.__notes)
         self.__view.info_note_msg('add')
 
     def delete_note(self, note):
+        self.__index_stack.append(note.get_id())
         self.__notes.remove(note)
-        self.__count = len(self.__notes)
         self.__view.info_note_msg('del')
 
 
@@ -56,7 +62,11 @@ class ListOfNotes:
 
     def save_notes_to_file(self):
         with open('notes.pkl', 'wb') as file:
-            pickle.dump(self.__notes, file, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.__notes, file,
+                        protocol=pickle.HIGHEST_PROTOCOL)
+        with open('indexes.pkl', 'wb') as file:
+            pickle.dump(self.__index_stack, file,
+                        protocol=pickle.HIGHEST_PROTOCOL)
 
 
 

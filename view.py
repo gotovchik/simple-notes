@@ -6,7 +6,7 @@ class View:
         print("Что вы хотите сделать? Выберите пункт меню:\n"
               "\t1. Добавить заметку\n"
               "\t2. Прочитать/Изменить/Удалить заметку\n"
-              "\t3. Показать список всех заметки\n"
+              "\t3. Показать список всех заметок\n"
               "\t4. Сохранить заметки\n"
               "\t0. Выйти из приложения")
 
@@ -29,6 +29,11 @@ class View:
         result += f"[{str(note.get_date())}]\t"
         result += f"[{str(note.get_name())}]\n"
         result += f"{str(note.get_text())}\n"
+        print(result)
+
+    def show_read_all_banner(self, count):
+        result = f"\t***Все заметки***\n" \
+                 f"Найдено заметок: {count}\n"
         print(result)
 
     def info_note_msg(self, key):

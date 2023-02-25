@@ -7,9 +7,6 @@ class Note:
     __date = ""
     __text = ""
 
-    def __init__(self):
-        self.__date = datetime.now().strftime('%Y, %B %d, %A | %H:%M')
-
     def set_id(self, value):
         self.__id = value
 
